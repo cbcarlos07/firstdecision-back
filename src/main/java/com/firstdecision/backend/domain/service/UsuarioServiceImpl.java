@@ -18,15 +18,21 @@ public class UsuarioServiceImpl implements UsuarioService{
 
     @Autowired
     private UsuarioRepository rep;
+    MensagemRetornoDTO msg = new MensagemRetornoDTO();
 
     @Override
-    public Usuario salvar(CriarUsuarioDTO dto) {
+    public MensagemRetornoDTO salvar(CriarUsuarioDTO dto) {
         if (rep.existsByEmail(dto.getEmail())) {
             throw new EmailJaRegistradoException("Este e-mail já está registrado");
         }
         dto.setSenha(encodePassword( dto.getSenha() ));
         Usuario usuario = GenericDTO.create( dto );
-        return rep.save(usuario);
+        Usuario u = rep.save(usuario);
+
+        msg.setMensagem("Registro efetuado com sucesso!");
+        msg.setStatus(true);
+
+        return msg;
     }
 
     private String encodePassword(String password) {
@@ -56,29 +62,37 @@ public class UsuarioServiceImpl implements UsuarioService{
     }
 
     @Override
-    public Usuario atualizar(Long id, AtualizarUsuarioDTO dto) {
+    public MensagemRetornoDTO atualizar(Long id, AtualizarUsuarioDTO dto) {
         Assert.notNull(id,"Não foi possível atualizar o registro");
         Optional<Usuario> optional = rep.findById(id);
+
         if( optional.isPresent() ){
             Usuario db = optional.get();
             db.setNome( dto.getNome() );
             db.setEmail( dto.getEmail() );
             rep.save( db );
-            return  GenericDTO.create( db );
+            msg.setMensagem("Registro atualizado com sucesso!");
+            msg.setStatus(true);
+            return  msg;
         }else{
+            msg.setMensagem("Registro não encntrado!");
+            msg.setStatus(false);
             return null;
         }
     }
 
     @Override
-    public Usuario atualizarSenha(Long id, AtualizarSenhaDTO dto) {
+    public MensagemRetornoDTO atualizarSenha(Long id, AtualizarSenhaDTO dto) {
         Assert.notNull(id,"Não foi possível atualizar o registro");
         Optional<Usuario> optional = rep.findById(id);
+
         if( optional.isPresent() ){
             Usuario db = optional.get();
             db.setSenha( encodePassword( dto.getSenha() ) );
             rep.save( db );
-            return  GenericDTO.create( db );
+            msg.setMensagem("Senha atualizada com sucesso!");
+            msg.setStatus(true);
+            return msg;
         }else{
             return null;
         }
@@ -96,10 +110,10 @@ public class UsuarioServiceImpl implements UsuarioService{
     }
 
     @Override
-    public MensagemRetorno remover(Long id) {
+    public MensagemRetornoDTO remover(Long id) {
         rep.deleteById(id);
         Optional<Usuario> usuario = rep.findById(id);
-        MensagemRetorno msg = new MensagemRetorno();
+
         if(usuario.isEmpty() ){
             msg.setMensagem("Usuário removido com sucesso!");
             msg.setStatus(true);

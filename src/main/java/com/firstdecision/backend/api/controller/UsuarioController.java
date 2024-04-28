@@ -1,10 +1,7 @@
 package com.firstdecision.backend.api.controller;
 
 import com.firstdecision.backend.api.exception.EmailJaRegistradoException;
-import com.firstdecision.backend.domain.dto.AtualizarSenhaDTO;
-import com.firstdecision.backend.domain.dto.AtualizarUsuarioDTO;
-import com.firstdecision.backend.domain.dto.CriarUsuarioDTO;
-import com.firstdecision.backend.domain.dto.UsuarioDTO;
+import com.firstdecision.backend.domain.dto.*;
 import com.firstdecision.backend.domain.model.Usuario;
 import com.firstdecision.backend.domain.service.UsuarioService;
 import jakarta.validation.Valid;
@@ -27,17 +24,15 @@ public class UsuarioController {
 
     @PostMapping
     public ResponseEntity salvar(@RequestBody @Valid CriarUsuarioDTO dto){
-        try {
-            service.salvar(dto);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-        } catch (EmailJaRegistradoException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+
+            MensagemRetornoDTO msg = service.salvar(dto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(msg);
+
     }
 
     @PutMapping("/{id}")
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody AtualizarUsuarioDTO dto){
-        Usuario usuario =  service.atualizar(id, dto);
+        MensagemRetornoDTO usuario =  service.atualizar(id, dto);
         return usuario != null ?
                     ResponseEntity.ok(usuario) :
                     ResponseEntity.notFound().build();
@@ -45,7 +40,7 @@ public class UsuarioController {
 
     @PutMapping("/senha/{id}")
     public ResponseEntity atualizarSenha(@PathVariable("id") Long id, @RequestBody AtualizarSenhaDTO dto){
-        Usuario usuario = service.atualizarSenha(id, dto);
+        MensagemRetornoDTO usuario = service.atualizarSenha(id, dto);
         return usuario != null ?
                  ResponseEntity.ok( usuario ) :
                  ResponseEntity.notFound().build();

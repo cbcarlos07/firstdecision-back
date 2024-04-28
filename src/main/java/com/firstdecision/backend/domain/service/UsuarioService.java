@@ -8,15 +8,15 @@ import java.util.Optional;
 
 public interface UsuarioService {
 
-    Usuario salvar(CriarUsuarioDTO usuario);
+    MensagemRetornoDTO salvar(CriarUsuarioDTO usuario);
 
-    Usuario atualizar(Long id, AtualizarUsuarioDTO usuario);
+    MensagemRetornoDTO atualizar(Long id, AtualizarUsuarioDTO usuario);
 
-    Usuario atualizarSenha(Long id, AtualizarSenhaDTO usuario);
+    MensagemRetornoDTO atualizarSenha(Long id, AtualizarSenhaDTO usuario);
 
     UsuarioDTO buscar(Long id);
 
     List<Usuario> listarTodos();
 
-    MensagemRetorno remover(Long id);
+    MensagemRetornoDTO remover(Long id);
 }
