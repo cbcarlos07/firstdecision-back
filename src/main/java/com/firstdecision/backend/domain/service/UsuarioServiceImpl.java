@@ -92,7 +92,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 
     @Override
     public List<Usuario> listarTodos() {
-        return rep.findAll();
+        return rep.findAllByOrderByNomeAsc();
     }
 
     @Override
