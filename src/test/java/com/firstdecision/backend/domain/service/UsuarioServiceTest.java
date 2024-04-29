@@ -1,6 +1,7 @@
 package com.firstdecision.backend.domain.service;
 import com.firstdecision.backend.domain.dto.CriarUsuarioDTO;
 import com.firstdecision.backend.domain.repository.UsuarioRepository;
+import jakarta.annotation.security.RunAs;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -9,7 +10,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
+@RunAs("admin")
 public class UsuarioServiceTest {
 
     @Mock
