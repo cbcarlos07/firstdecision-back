@@ -15,7 +15,7 @@
 - Java 17
 - lombok: 1.18.32
 - modelmapper: 2.3.0
-- Postgres
+- Postgres (Usado no docker [Clique aqui para acessar](https://github.com/cbcarlos07/docker-postgres)
 
 ## <a id="prot">3. Banco de dados
 
