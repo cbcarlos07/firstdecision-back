@@ -24,14 +24,13 @@ public class UsuarioController {
 
     @PostMapping
     public ResponseEntity salvar(@RequestBody @Valid CriarUsuarioDTO dto){
-
             MensagemRetornoDTO msg = service.salvar(dto);
             return ResponseEntity.status(HttpStatus.CREATED).body(msg);
 
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody AtualizarUsuarioDTO dto){
+    public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody @Valid AtualizarUsuarioDTO dto){
         MensagemRetornoDTO usuario =  service.atualizar(id, dto);
         return usuario != null ?
                     ResponseEntity.ok(usuario) :
@@ -39,7 +38,7 @@ public class UsuarioController {
     }
 
     @PutMapping("/senha/{id}")
-    public ResponseEntity atualizarSenha(@PathVariable("id") Long id, @RequestBody AtualizarSenhaDTO dto){
+    public ResponseEntity atualizarSenha(@PathVariable("id") Long id, @RequestBody @Valid AtualizarSenhaDTO dto){
         MensagemRetornoDTO usuario = service.atualizarSenha(id, dto);
         return usuario != null ?
                  ResponseEntity.ok( usuario ) :
