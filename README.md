@@ -17,7 +17,7 @@
 - modelmapper: 2.3.0
 - Postgres
 
-## <a id="prot">3. Banco de dadps
+## <a id="prot">3. Banco de dados
 
 O banco de dados utilizando conforme solicitação foi o Postgres
 
